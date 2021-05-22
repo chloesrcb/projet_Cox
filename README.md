@@ -1,4 +1,4 @@
-# Étude du modèle de Cox : Vérificationdes hypothèses et quelques extensions
+# Étude du modèle de Cox : Vérification des hypothèses et quelques extensions
 
 
 ## Description 
