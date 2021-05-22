@@ -63,14 +63,14 @@ borne_1_race=quantile(bfeed$duration)["50%"]
 b=seq(10,48,2)
 loglik_max=NULL
 for(i in seq(1,length(b))){
-  bfeed.split = survSplit(Surv(duration, delta)~., data=bfeed, cut=c(borne_1,b[i]), episode="tgroup")
-  cox_strata=coxph(Surv(duration,delta)~race:strata(tgroup)+factor(smoke)+ybirth+yschool, data=bfeed.split, method='efron')
+  bfeed.split_race = survSplit(Surv(duration, delta)~., data=bfeed, cut=c(borne_1,b[i]), episode="tgroup")
+  cox_strata=coxph(Surv(duration,delta)~race:strata(tgroup)+factor(smoke)+ybirth+yschool, data=bfeed.split_race, method='efron')
   loglik_max[i]=cox_strata$loglik[2]
 }
 borne_2_race=b[which.max(loglik_max)]
 
-bfeed.split = survSplit(Surv(duration, delta)~., data=bfeed, cut=c(borne_1_race, borne_2_race), episode="tgroup")
-cox_strata_race=coxph(Surv(duration,delta)~race:strata(tgroup)+factor(smoke)+ybirth+yschool, data=bfeed.split, method='efron')
+bfeed.split_race = survSplit(Surv(duration, delta)~., data=bfeed, cut=c(borne_1_race, borne_2_race), episode="tgroup")
+cox_strata_race=coxph(Surv(duration,delta)~race:strata(tgroup)+factor(smoke)+ybirth+yschool, data=bfeed.split_race, method='efron')
 plot(cox.zph(cox_fit, transform="identity"), var="race", xlab="Temps (en semaines)",lwd=3, resid=T, ylim=c(-1,1))
 x_smoke_st=c(0,borne_1_race,borne_2_race,192)
 y_smoke_st=c(cox_strata_race[["coefficients"]][["race:strata(tgroup)tgroup=1"]], 
